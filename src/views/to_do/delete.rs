@@ -1,3 +1,4 @@
+use super::utils::return_state;
 use crate::json_serialization::to_do_item::ToDoItem;
 use crate::processes::process_input;
 use crate::state::read_file;
@@ -7,7 +8,7 @@ use serde_json::value::Value;
 use serde_json::Map;
 
 pub async fn delete(to_do_item: web::Json<ToDoItem>) -> HttpResponse {
-    let state: Map<String, Value> = read_file("./state.json");
+    let state: Map<String, Value> = read_file(String::from("./state.json"));
     let title: String = to_do_item.title.clone();
     let status: String = to_do_item.status.clone();
     match to_do_factory(&status, title) {

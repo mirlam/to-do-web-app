@@ -25,6 +25,7 @@ function apiCall(url, method) {
 
   xhr.addEventListener('readystatechange', function() {
     if (this.readyState === this.DONE) {
+      console.log(this.responseText);
       renderItems(JSON.parse(this.responseText)["pending_items"], "edit", "pendingItems", editItem);
       renderItems(JSON.parse(this.responseText)["done_items"], "delete", "doneItems", deleteItem);
     }
@@ -37,7 +38,7 @@ function apiCall(url, method) {
 }
 
 function editItem() {
-  let title = this.id.replaceAll("-", "      ").replace("edit ", "");
+  let title = this.id.replaceAll("-", " ").replace("edit ", "");
   let call = apiCall("/item/edit", "PUT");
   let json = {
     "title": title,
@@ -64,8 +65,8 @@ getItems();
 
 document.getElementById("create-button").addEventListener("click", createItem);
 function createItem() {
-  let title = documemnt.getElementById("name");
-  let call = apiCall("/item/create" + title.value, "POST");
+  let title = document.getElementById("name");
+  let call = apiCall("/item/create/" + title.value, "POST");
   call.send();
   document.getElementById("name").value = null;
 }
